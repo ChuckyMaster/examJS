@@ -8,6 +8,7 @@ let btnADD;
 
 /******************* ARRAY **********************/
 let meals = [
+  //Dsl j'ai compris tard qu'on ne gérait pas les quantités, je les ai laissé quand même :/
   {
     name: "tartiflette",
     quantity: 2,
@@ -56,7 +57,6 @@ let meals = [
 
 function displayMeal() {
   let display = document.querySelector("#meals");
-
   let ul = document.createElement("ul");
 
   //initialiser un index a 0 afin de l'incrémenter dans la boucle
@@ -75,12 +75,14 @@ function displayMeal() {
   display.appendChild(ul);
   display.insertAdjacentHTML(
     "afterbegin",
-    `<h3> Vous avez ${meals.length} plat(s) au menu! cela va vous coûter cher! </h3>`
+    `<h3> Vous avez ${meals.length} plat(s) au menu! cela va vous coûter cher! <br>
+    pour  </h3>`
   );
 }
 
 //Recuperer les valeurs de l'input
-function recoverInput() {
+function recoverInput(e) {
+  e.preventDefault();
   let mealRecover = new Object();
   mealRecover.name = document
     .querySelector("input[type=text]")
@@ -112,6 +114,8 @@ function isDoublon(product) {
       //si doublons: incrémenter sur le même index
       meals[index].quantity =
         parseInt(line.quantity) + parseInt(product.quantity);
+      //rajout de length ici car (j'ai mal compris l'affichage de quantité)
+      meals.length++;
       doublon = true;
     }
   });
@@ -125,8 +129,10 @@ document.addEventListener("DOMContentLoaded", function () {
   //--------------SELECTORS-------------------//
   form = document.querySelector("form");
   btnADD = document.querySelector("input[type=button]");
-  btnADD.addEventListener("click", recoverInput);
-  displayMeal();
 
+  displayMeal();
   //--------------EVENT-------------------//
+  btnADD.addEventListener("click", recoverInput);
 });
+
+//J'ai essayé d'additionner les valeurs (du coup) au quantité de chaque ligne pour qu'il y ai un affichage plus adapté mais ce fut un bel echec !!!!
